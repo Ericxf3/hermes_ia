@@ -1,0 +1,28 @@
+'use client';
+
+import { useState } from 'react';
+import Layout from './components/Layout';
+import Dashboard from './components/Dashboard';
+import Plataformas from './components/Plataformas';
+import CRM from './components/CRM';
+import Reportes from './components/Reportes';
+
+export default function Home() {
+  const [activeSection, setActiveSection] = useState('dashboard');
+
+  const renderSection = () => {
+    switch (activeSection) {
+      case 'dashboard': return <Dashboard />;
+      case 'plataformas': return <Plataformas />;
+      case 'crm': return <CRM />;
+      case 'reportes': return <Reportes />;
+      default: return <Dashboard />;
+    }
+  };
+
+  return (
+    <Layout activeSection={activeSection} setActiveSection={setActiveSection}>
+      {renderSection()}
+    </Layout>
+  );
+}

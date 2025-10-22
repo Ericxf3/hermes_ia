@@ -1,0 +1,114 @@
+'use client';
+
+import { useState } from 'react';
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faGlobe, faUsers, faChartLine, faBars, faRocket } from '@fortawesome/free-solid-svg-icons';
+
+const Header = styled.header`
+  background: rgba(5, 23, 38, 0.9);
+  color: #F2F2F0;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(4, 217, 196, 0.3);
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid #04D9C4;
+`;
+
+const Sidebar = styled.aside<{ collapsed: boolean }>`
+  width: ${props => props.collapsed ? '80px' : '320px'};
+  background: linear-gradient(135deg, #051726 0%, rgba(4, 217, 196, 0.1) 100%);
+  color: #F2F2F0;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 80px;
+  overflow-y: auto;
+  transition: width 0.4s ease;
+  box-shadow: 4px 0 20px rgba(4, 217, 196, 0.2);
+  border-radius: 0 20px 20px 0;
+  backdrop-filter: blur(15px);
+  border-right: 2px solid #04D9C4;
+`;
+
+const SidebarItem = styled.li<{ active: boolean }>`
+  padding: 20px 25px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(242, 242, 240, 0.2);
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  border-radius: 15px;
+  margin: 10px 15px;
+  background: rgba(242, 242, 240, 0.05);
+  ${props => props.active && 'background: rgba(4, 217, 196, 0.3); border-left: 4px solid #04D9C4;'}
+  &:hover { background: rgba(4, 217, 196, 0.2); transform: scale(1.05); box-shadow: 0 0 15px rgba(4, 217, 196, 0.5); }
+  span { margin-left: 20px; ${props => props.collapsed && 'display: none;'} }
+`;
+
+const Main = styled.main<{ collapsed: boolean }>`
+  margin-left: ${props => props.collapsed ? '80px' : '320px'};
+  padding: 100px 30px 30px;
+  transition: margin-left 0.4s ease;
+  min-height: 100vh;
+`;
+
+const ToggleBtn = styled.button`
+  background: linear-gradient(135deg, #04D9C4 0%, #051726 100%);
+  border: none;
+  color: #F2F2F0;
+  padding: 12px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 4px 15px rgba(4, 217, 196, 0.3);
+  &:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(4, 217, 196, 0.5); }
+`;
+
+interface LayoutProps {
+  children: React.ReactNode;
+  activeSection: string;
+  setActiveSection: (section: string) => void;
+}
+
+export default function Layout({ children, activeSection, setActiveSection }: LayoutProps) {
+  const [collapsed, setCollapsed] = useState(false);
+
+  const toggleSidebar = () => setCollapsed(!collapsed);
+
+  return (
+    <>
+      <Header>
+        <h2><FontAwesomeIcon icon={faRocket} /> Dashboard IA Futurista</h2>
+        <ToggleBtn onClick={toggleSidebar}><FontAwesomeIcon icon={faBars} /> Menú</ToggleBtn>
+      </Header>
+      <Sidebar collapsed={collapsed}>
+        <ul>
+          <SidebarItem active={activeSection === 'dashboard'} onClick={() => setActiveSection('dashboard')}>
+            <FontAwesomeIcon icon={faHome} />
+            <span>Dashboard</span>
+          </SidebarItem>
+          <SidebarItem active={activeSection === 'plataformas'} onClick={() => setActiveSection('plataformas')}>
+            <FontAwesomeIcon icon={faGlobe} />
+            <span>Plataformas</span>
+          </SidebarItem>
+          <SidebarItem active={activeSection === 'crm'} onClick={() => setActiveSection('crm')}>
+            <FontAwesomeIcon icon={faUsers} />
+            <span>CRM</span>
+          </SidebarItem>
+          <SidebarItem active={activeSection === 'reportes'} onClick={() => setActiveSection('reportes')}>
+            <FontAwesomeIcon icon={faChartLine} />
+            <span>Reportes</span>
+          </SidebarItem>
+        </ul>
+      </Sidebar>
+      <Main collapsed={collapsed}>{children}</Main>
+    </>
+  );
+}

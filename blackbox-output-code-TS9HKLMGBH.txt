@@ -1,0 +1,62 @@
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChartPie, faChartBar } from '@fortawesome/free-solid-svg-icons';
+
+const Widget = styled.div`
+  background: rgba(242, 242, 240, 0.1);
+  padding: 30px;
+  margin-bottom: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(4, 217, 196, 0.2);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(4, 217, 196, 0.3);
+  transition: transform 0.3s ease;
+  &:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(4, 217, 196, 0.4); }
+`;
+
+const KPI = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin: 30px 0;
+  flex-wrap: wrap;
+`;
+
+const KPIItem = styled.div`
+  text-align: center;
+  padding: 20px;
+  background: rgba(242, 242, 240, 0.1);
+  border-radius: 15px;
+  flex: 1;
+  margin: 10px;
+  min-width: 150px;
+  border: 1px solid rgba(4, 217, 196, 0.3);
+  box-shadow: 0 4px 15px rgba(4, 217, 196, 0.2);
+  h4 { margin: 0; color: #04D9C4; font-size: 2em; text-shadow: 0 0 10px #04D9C4; }
+`;
+
+const Chart = styled.div`
+  height: 300px;
+  background: linear-gradient(135deg, rgba(4, 217, 196, 0.3) 0%, rgba(5, 23, 38, 0.8) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #F2F2F0;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: 400;
+  box-shadow: inset 0 0 20px rgba(4, 217, 196, 0.5);
+`;
+
+export default function Dashboard() {
+  return (
+    <Widget>
+      <h3><FontAwesomeIcon icon={faChartPie} /> Resumen General</h3>
+      <KPI>
+        <KPIItem><h4>85%</h4><p>Tasa de Éxito</p></KPIItem>
+        <KPIItem><h4>5%</h4><p>Errores</p></KPIItem>
+        <KPIItem><h4>1,250</h4><p>Mensajes Hoy</p></KPIItem>
+      </KPI>
+      <Chart><FontAwesomeIcon icon={faChartBar} /> Gráfico de Rendimiento Interactivo</Chart>
+    </Widget>
+  );
+}
